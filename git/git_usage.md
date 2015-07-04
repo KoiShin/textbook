@@ -134,22 +134,22 @@ My Name
 ~~~
  GitHub
 
-          (Remote_Repository)
+          (Remote_Repository)   # リモートリポジトリ
            |      |       ∧
            |      |       |
  ----------|------|-------|----------
  PC        |      |       |
            | fetch|       |push
            |      ∨       |
-          (Local_Repository)
+          (Local_Repository)    # ローカルリポジトリ
            |      |       ∧
        pull|      |       |commit
            |      |       |
-           |      |     (Index)
+           |      |     (Index) # インデックス
            |      |       ∧
            | merge|       |add
            ∨      ∨       |
-          (Working_Directory)
+          (Working_Directory)   # 作業ディレクトリ
 ~~~
 
 pull は fetch と merge をまとめて行います

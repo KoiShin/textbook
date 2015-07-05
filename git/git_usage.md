@@ -123,7 +123,22 @@ My Name
 
 `git remote add <name> <url>` : リモートへの接続方法の追加
 
+`git remote rename <old> <new>` : リモート名を old から new に変更する
+
 `git remote set-url <name> <newurl>` : リモートのURLの変更
+
+~~~bash
+$ # リモートリポジトリの登録
+$ git remote add origin https://github.com/usr/repository
+
+$ # リモートのURLを変更
+$ git remote set-url origin https://github.com/usr/repository2
+
+$ # リモート名とそのURLの確認
+$ git remote -v
+origin  https://github.com/usr/repository2.git (fetch)
+origin  https://github.com/usr/repository2.git (push)
+~~~
 
 -----
 
@@ -150,6 +165,7 @@ My Name
            | merge|       |add
            ∨      ∨       |
           (Working_Directory)   # 作業ディレクトリ
+
 ~~~
 
 pull は fetch と merge をまとめて行います
@@ -570,10 +586,10 @@ A---B---C---E                 A---B---C---E
 - branch : 取り込むブランチ名
 
 ~~~bash
-$ # 「master」ブランチの変更を、現在のブランチに取り込む
+$ # master ブランチの変更を、現在のブランチに取り込む
 $ git merge master
 
-$ # fetchしてできたブランチ「FETCH_HEAD」をmergeする
+$ # fetchしてできたブランチ FETCH_HEAD をmergeする
 $ git merge FETCH_HEAD
 ~~~
 

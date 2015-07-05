@@ -490,7 +490,6 @@ $ git branch
 * master
   new-branch
   set-start-branch
-$ 
 ~~~
 
 #### 作業ブランチを切り替える (checkout)
@@ -763,14 +762,14 @@ no changes added to commit (use "git add" and/or "git commit -a")
 先頭の大文字英字には、次のような意味があります。
 
 文字 | 意味
------|--------
+-----|---------------
 (なし)| 変更なし
-M    | 変更
-A    | 追加
-D    | 削除
-R    | 名前変更
-C    | 複製
-U    | 競合
+M    | 変更 (modify)
+A    | 追加 (add)
+D    | 削除 (delete)
+R    | 名前変更 (rename)
+C    | 複製 (clone)
+U    | 競合 (unmerged)
 
 以下に具体例を示します
 

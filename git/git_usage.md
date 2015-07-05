@@ -106,7 +106,7 @@ $ git config --global user.name
 My Name
 ~~~
 
-`--global` を指定して設定した場合は、~/.gitconfig に設定が書き込まれます。
+`--global` を指定して設定した場合は、~/.gitconfig に設定が書き込まれます。  
 上のコマンドを実行すると、.gitconfig ファイルには次のように変更が加えられます。
 
 ~~~
@@ -207,6 +207,7 @@ $ git add dir/
 ブランチの様子
 
 ~~~
+                     commit
 A---B---C---D          =>     A---B---C---D---E  
             ∧                                 ∧ 
           * master                          * master 
@@ -244,16 +245,16 @@ $ git commit --amend -m 'your message'
 ブランチの様子
 
 ~~~
-remote                               remote                         
-       A---B                                A---B---C---D                  
-           ∧                                            ∧
-           origin/master                                origin/master
-                             push
---------------------------    =>     ---------------------------   
-local                                local                           
-       A---B---C---D                        A---B---C---D           
-                   ∧                                    ∧           
-                 * master                             * master      
+remote                                  remote                         
+       A---B                                   A---B---C---D                  
+           ∧                                               ∧
+           origin/master                                   origin/master
+                               push 
+--------------------------      =>      --------------------------------   
+local                                   local                           
+       A---B---C---D                           A---B---C---D           
+                   ∧                                       ∧           
+                 * master                                * master      
 ~~~
 
 書式
@@ -291,16 +292,16 @@ $ git push origin :new-branch
 ブランチの様子
 
 ~~~
-remote                                   remote                           
-       A---B---C---D                            A---B---C---D           
-                   ∧                                        ∧           
-                   origin/master                            origin/master   
-
----------------------------    pull     ----------------------------   
-local                           =>       local                        
-       A---B                                    A---B---C---D          
-           ∧                                                ∧
-         * master                                         * master 
+remote                                        remote                           
+       A---B---C---D                                 A---B---C---D           
+                   ∧                                             ∧           
+                   origin/master                                 origin/master   
+                                            
+--------------------------------     pull     --------------------------------   
+local                                 =>      local                        
+       A---B                                         A---B---C---D          
+           ∧                                                     ∧
+         * master                                              * master 
 ~~~
 
 書式
@@ -336,13 +337,19 @@ $ git pull origin foo:foo-branch
 ブランチの様子
 
 ~~~
-                                                FETCH_HEAD
-                                                ∨
-                                            E---F
-                       =>                  /
-A---B---C---D                 A---B---C---D
-            ∧                             ∧ 
-          * master                      * master 
+remote                                   remote                            
+
+    A---B---C---D                            A---B---C---D           
+                ∧                                        ∧           
+                origin/master                            origin/master 
+                                
+-----------------------------   fetch    ----------------------------- 
+local                             =>     local
+                                                   C---D < FETCH_HEAD
+                                                  /    
+    A---B                                    A---B     
+        ∧                                        ∧
+      * master                                 * master
 ~~~
 
 書式
@@ -351,7 +358,7 @@ A---B---C---D                 A---B---C---D
 
 説明
 
-リモートの変更を取得して、FETCH_HEAD という名前のブランチを作成します。
+リモートの変更を取得して、FETCH_HEAD という名前のブランチを作成します。  
 merge する場合は FETCH_HEAD を現在のブランチに取り込みます。
 
 - repository : fetch先のリポジトリ（デフォルトは origin ）
@@ -370,6 +377,7 @@ $ git merge FETCH_HEAD        # 確認後、現在のブランチにマージす
 ブランチの様子
 
 ~~~
+                     reset
 A---B---C---D          =>     A---B---C
             ∧                         ∧ 
           * master                  * master 
@@ -421,7 +429,7 @@ A---B---C---E---F
               * master  
 ~~~
 
-この作業ツリーには master と topic の二つのブランチが存在します。
+この作業ツリーには master と topic の二つのブランチが存在します。  
 ブランチ名の前に`*`が付いているのは、現在作業しているブランチを示しています。
 
 ##### HEAD^ と HEAD~n について
@@ -439,8 +447,8 @@ $ git show HEAD^
 zsh: no matches found: HEAD^
 ~~~
 
-zsh の extended_glob オブションが有効な場合、これは
-「ファイル名が HEAD から始まるが、その次が文字の終端ではないファイルと一致する」
+zsh の extended_glob オブションが有効な場合、これは  
+「ファイル名が HEAD から始まるが、その次が文字の終端ではないファイルと一致する」  
 という意味になります。
 
 ~~~bash
@@ -467,11 +475,11 @@ head.txt    head100
 ブランチの様子 (ブランチ作成の例)
 
 ~~~
-                                  topic
-                                  ∨
-A---B---C          =>     A---B---C
-        ∧                         ∧ 
-      * master                  * master 
+                                        topic
+                    branch              ∨
+A---B---C             =>        A---B---C
+        ∧                               ∧ 
+      * master                        * master 
 ~~~
 
 書式
@@ -528,13 +536,13 @@ $ git branch
 ブランチの様子
 
 ~~~
-          topic                       * topic   
-          ∨                             ∨   
-      D---F                         D---F
-     /                 =>          /     
-A---B---C                     A---B---C
-        ∧                             ∧ 
-      * master                        master 
+          topic                            * topic   
+          ∨                                  ∨   
+      D---F          checkout            D---F
+     /                  =>              /     
+A---B---C                          A---B---C
+        ∧                                  ∧ 
+      * master                             master 
 ~~~
 
 書式
@@ -556,10 +564,9 @@ $ # ブランチの作成
 $ git checkout -b new-branch
 ~~~
 
-`git checkout -b new-branch` は 
-ブランチの作成 `git branch new-branch` と
-ブランチの切り替え `git checkout new-branch` を
-まとめて行ってくれるので、ブランチの作成によく使われます。
+`git checkout -b new-branch` は、ブランチの作成 `git branch new-branch` と  
+ブランチの切り替え `git checkout new-branch` をまとめて行ってくれるので、  
+ブランチの作成によく使われます。
 
 
 #### 他のブランチの変更内容をマージする (merge)
@@ -567,13 +574,13 @@ $ git checkout -b new-branch
 ブランチの様子
 
 ~~~
-        * topic                           * topic   
-          ∨                                 ∨   
-      D---F                         D---F---G
-     /                 =>          /       /
-A---B---C---E                 A---B---C---E
-            ∧                             ∧ 
-            master                        master 
+        * topic                                 * topic   
+          ∨                                       ∨   
+      D---F             merge             D---F---G
+     /                    =>             /       /
+A---B---C---E                       A---B---C---E
+            ∧                                   ∧ 
+            master                              master 
 ~~~
 
 書式
@@ -595,7 +602,7 @@ $ git merge FETCH_HEAD
 
 ##### 競合について
 
-例えば、other-branch の test.txt ファイルと master の test.txt ファイルで別々の変更を加えたとします。
+例えば、other-branch の test.txt ファイルと master の test.txt ファイルで別々の内容を加えたとします。
 
 ~~~
 master:test.txt         other-branch:test.txt
@@ -639,7 +646,7 @@ other-list2
 $ 
 ~~~
 
-エディタで競合しているファイルを開いて、編集します。
+エディタで競合しているファイルを開いて、編集します。  
 今回は、両方の変更を採用したいので、test.txt の中身を次のように書き換えます。
 
 ~~~
@@ -676,7 +683,7 @@ $ git mergetool -t vimdiff
 # vimdiff が起動する
 ~~~
 
-vimで変更を加える時は `i` を押して、編集して、`<Esc>` で書き込みモードから離れます。
+vimで変更を加える時は `i` を押して、編集して、`<Esc>` で書き込みモードから離れます。  
 編集の保存は `:w` と入力します。
 全てのウィンドウを閉じるには `:qa` と入力します
 
@@ -685,13 +692,13 @@ vimで変更を加える時は `i` を押して、編集して、`<Esc>` で書�
 ブランチの様子
 
 ~~~
-            * topic                               * topic   
-              ∨                                     ∨   
-      D---F---G                             D'--F'--G'
-     /                 =>                  /
-A---B---C---E                 A---B---C---E
-            ∧                             ∧ 
-            master                        master 
+            * topic                                         * topic   
+              ∨                                               ∨   
+      D---F---G            rebase                     D'--F'--G'
+     /                       =>                      /
+A---B---C---E                           A---B---C---E
+            ∧                                       ∧ 
+            master                                  master 
 ~~~
 
 書式
@@ -716,13 +723,13 @@ $ git rebase master
 ブランチの様子
 
 ~~~
-        * topic                                  * topic   
-          ∨                                        ∨   
-      D---F                            D---F---G'--H'
-     /                    =>          /    
-A---B---C---E---G---H            A---B---C---E---G---H
-                    ∧                                ∧ 
-                    master                           master 
+        * topic                                              * topic   
+          ∨                                                    ∨   
+      D---F                  cherry-pick           D---F---G'--H'
+     /                            =>              /    
+A---B---C---E---G---H                        A---B---C---E---G---H
+                    ∧                                            ∧ 
+                    master                                       master 
 ~~~
 
 書式
@@ -786,6 +793,7 @@ Untracked files:                   # 追跡していないファイル
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ~~~
+
 
 `git status -s` での表示形式について、  
 1文字目はインデックスの状態、2文字目は作業ディレクトリの状態を表しています。

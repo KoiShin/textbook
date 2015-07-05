@@ -252,7 +252,13 @@ local                                local
 - ref : ブランチ名
 
 ~~~bash
-$ # 共有リポジトリに変更を送る
+$ # リモートのoriginに変更を送る
+$ git push origin master
+
+$ # いつもpushするリモートに設定する
+$ git push --set-upstream origin master
+
+$ # リモートリポジトリに変更を送る（--set-upstream 設定後）
 $ git push
 
 $ # 新規に作成したブランチを送る
@@ -293,8 +299,17 @@ fetchとmergeを同時に行う（pull = fetch + merge）
 - ref : ブランチ名
 
 ~~~bash
-$ # リモートの変更を取得してマージ
+$ # リモートのoriginの変更をpullする
+$ git pull origin master
+
+$ # リモートのoriginをいつもpullするリモートに設定する
+$ git pull --set-upstream origin master
+
+$ # リモートの変更を取得してマージ（--set-upstream 設定後）
 $ git pull
+
+$ # 指定したブランチ「topic」をpullする
+$ git push origin topic
 
 $ # リモートのブランチ「foo」を取得して、ローカルにブランチ「foo-branch」を作成
 $ git pull origin foo:foo-branch

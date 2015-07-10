@@ -116,30 +116,23 @@ typedef struct {
 // main -> func1 -> func2 の順番で呼び出される
 //
 
-void func1(Point *p1) {
-	/*
-	 * 引数p1を与えてfunc2を呼び出す
-	 */
-}
-
 void func2(Point *p2) {
 	/*
 	 * 引数p2のx,yを出力する
 	 */
 }
 
+void func1(Point *p1) {
+	/*
+	 * 引数p1を与えてfunc2を呼び出す
+	 */
+}
+
 int main(void) {
-	Point point = {1,2}:
+	Point point = {1,2};
 	func1(&point);
 }
 ~~~
-
-
-
-
-
-
-
 
 
 
@@ -262,7 +255,20 @@ int main(void) {
 <a name="ptr5"></a>
 ## 5. ポインタのポインタ
 ~~~ c
+#include <stdio.h>
 
+void func2(Point *p2) {
+	printf("(%f, %f)\n", p2->x, p2->y);
+}
+
+void func1(Point *p1) {
+	func2(&*p1);
+}
+
+int main(void) {
+	Point point = {1,2};
+	func1(&point);
+}
 ~~~
 
 

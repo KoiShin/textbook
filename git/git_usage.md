@@ -4,6 +4,38 @@ Gitの使い方（コマンド編）
 
 ここでは筆者が知っている部分の説明しかしませんので、あしからず
 
+[TOC]
+
+- Git 作業フロー
+- 基本的なコマンド集
+  - 初期設定
+    - [Git リポジトリを初期化する (init)](#init)
+    - [リポジトリの複製 (clone)](#clone)
+    - [Git の設定の表示と変更 (config)](#config)
+    - [リモートリポジトリを設定する (remote)](#remote)
+  - 変更の反映
+    - [変更をインデックスに登録 (add)](#add)
+    - [変更をローカルリポジトリに反映 (commit)](#commit)
+    - [リモートに変更を送る (push)](#push)
+    - [リモートの変更を取得してマージする (pull)](#pull)
+    - [リモートの変更を取得する (fetch)](#fetch)
+    - [コミットのリセット (reset)](#reset)
+  - ブランチ操作
+    - [ブランチを操作する (branch)](#branch)
+    - [作業ブランチを切り替える (checkout)](#checkout)
+    - [他のブランチの変更内容をマージする (merge)](#merge)
+    - [外部ツールを使って競合を解決する (mergetool)](#mergetool)
+    - [ブランチの起点を変更する (rebase)](#rebase)
+    - [他のブランチのコミットを取り込む (cherry-pick)](#cherry-pick)
+  - 確認
+    - [ファイルの状態を表示 (status)](#status)
+    - [履歴を表示する (log)](#log)
+    - [差分を表示する (diff)](#diff)
+    - [コミットを表示する (show)](#show)
+    - [リポジトリの操作履歴の確認 (reflog)](#reflog)
+    - [Gitコマンドのヘルプ (help)](#help)
+
+
 Git 作業フロー
 -------------
 
@@ -20,7 +52,8 @@ Git 作業フロー
 
 ### 初期設定
 
-#### Git リポジトリを初期化する (init)
+<a name="init"></a>
+####  Git リポジトリを初期化する (init)
 
 書式
 
@@ -63,6 +96,7 @@ Initialized empty Git repository in /path/to/dir/.git/
     └── tags/
 ~~~
 
+<a name="clone"></a>
 #### リポジトリの複製 (clone)
 
 書式
@@ -85,6 +119,7 @@ Unpacking objects: 100% (36/36), done.
 Checking connectivity... done.
 ~~~
 
+<a name="config"></a>
 #### Git の設定の表示と変更 (config)
 
 書式
@@ -115,6 +150,7 @@ My Name
     email = foo@bar.baz
 ~~~
 
+<a name="remote"></a>
 #### リモートリポジトリを設定する (remote)
 
 書式
@@ -181,6 +217,7 @@ Index (インデックス) | ローカルリポジトリへ反映する変更を
 
 以後、リモートリポジトリをリモート、ローカルリポジトリをローカルと省略して書く場合があります
 
+<a name="add"></a>
 #### 変更をインデックスに登録 (add)
 
 書式
@@ -202,6 +239,7 @@ $ # フォルダ下にある全てのファイルを追加
 $ git add dir/
 ~~~
 
+<a name="commit"></a>
 #### 変更をローカルリポジトリに反映 (commit)
 
 ブランチの様子
@@ -240,6 +278,7 @@ $ git add test.txt
 $ git commit --amend -m 'your message'
 ~~~
 
+<a name="push"></a>
 #### リモートに変更を送る (push)
 
 ブランチの様子
@@ -287,6 +326,7 @@ $ # もしくは
 $ git push origin :new-branch
 ~~~
 
+<a name="pull"></a>
 #### リモートの変更を取得してマージする (pull)
 
 ブランチの様子
@@ -332,6 +372,7 @@ $ # リモートのブランチ「foo」を取得して、ローカルにブラ�
 $ git pull origin foo:foo-branch
 ~~~
 
+<a name="fetch"></a>
 #### リモートの変更を取得する (fetch)
 
 ブランチの様子
@@ -372,6 +413,7 @@ $ git diff HEAD..FETCH_HEAD   # 現在のブランチのHEADから、フェッ�
 $ git merge FETCH_HEAD        # 確認後、現在のブランチにマージする
 ~~~
 
+<a name="reset"></a>
 #### コミットのリセット (reset)
 
 ブランチの様子
@@ -470,6 +512,7 @@ head.txt    head100
 
 --
 
+<a name="branch"></a>
 #### ブランチを操作する (branch)
 
 ブランチの様子 (ブランチ作成の例)
@@ -531,6 +574,7 @@ $ git branch
   set-start-branch
 ~~~
 
+<a name="checkout"></a>
 #### 作業ブランチを切り替える (checkout)
 
 ブランチの様子
@@ -568,7 +612,7 @@ $ git checkout -b new-branch
 ブランチの切り替え `git checkout new-branch` をまとめて行ってくれるので、  
 ブランチの作成によく使われます。
 
-
+<a name="merge"></a>
 #### 他のブランチの変更内容をマージする (merge)
 
 ブランチの様子
@@ -667,6 +711,7 @@ $ git commit
 $ git push
 ~~~
 
+<a name="mergetool"></a>
 #### 外部ツールを使って競合を解決する (mergetool)
 
 `git mergetool [-t <tool>] [<file>...]`
@@ -687,6 +732,7 @@ vimで変更を加える時は `i` を押して、編集して、`<Esc>` で書�
 編集の保存は `:w` と入力します。
 全てのウィンドウを閉じるには `:qa` と入力します
 
+<a name="rebase"></a>
 #### ブランチの起点を変更する (rebase)
 
 ブランチの様子
@@ -717,7 +763,7 @@ $ # 現在のブランチを、masterブランチの最新コミットから分�
 $ git rebase master
 ~~~
 
-
+<a name="cherry-pick"></a>
 #### 他のブランチのコミットを取り込む (cherry-pick)
 
 ブランチの様子
@@ -753,6 +799,7 @@ $ git cherry-pick b75ffb1
 
 ### 確認
 
+<a name="status"></a>
 #### ファイルの状態を表示 (status)
 
 `git status [-s]`
@@ -794,6 +841,16 @@ Untracked files:                   # 追跡していないファイル
 no changes added to commit (use "git add" and/or "git commit -a")
 ~~~
 
+Untracked files に追跡していないファイルを表示させないようにするには、  
+.gitignore に無視するファイルを追加（作成）します。
+
+.gitignore
+
+~~~bash
+*.o    # 拡張子が .o で終わるファイルは無視
+dir/   # 指定したディレクトリ以下の全てのファイルを無視
+!dir/template  # 先頭に ! を加えて、無視していたファイルを無視しないようにする
+~~~
 
 `git status -s` での表示形式について、  
 1文字目はインデックスの状態、2文字目は作業ディレクトリの状態を表しています。
@@ -823,7 +880,7 @@ R  file.txt -> renamedfile.txt  # インデックスに追加済みの変更（�
 ?? untrackedfile.txt            # バージョン管理外のファイル
 ~~~
 
-
+<a name="log"></a>
 #### 履歴を表示する (log)
 
 `git log [--<options>] [-<n>] [<range>] [<file>]`
@@ -862,6 +919,7 @@ $ # この例では、other-branch にあって、master にはないコミッ�
 $ git log master..other-branch
 ~~~
 
+<a name="diff"></a>
 #### 差分を表示する (diff)
 
 `git diff [--cached]`
@@ -891,6 +949,7 @@ $ # 2つのブランチの差分を表示
 $ git diff master..FETCH_HEAD
 ~~~
 
+<a name="show"></a>
 #### コミットを表示する (show)
 
 `git show [--oneline] <commit>`
@@ -912,7 +971,7 @@ $ # 直近から3件のコミットの情報を表示
 $ git show -3
 ~~~
 
-
+<a name="reflog"></a>
 #### リポジトリの操作履歴の確認 (reflog)
 
 `git reflog`
@@ -940,7 +999,7 @@ $ # 先ほどのresetを取り消す
 $ git reset HEAD@{2}
 ~~~
 
-
+<a name="help"></a>
 #### Gitコマンドのヘルプ (help)
 
 `git help <command>`

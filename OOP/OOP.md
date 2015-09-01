@@ -15,6 +15,7 @@ Object Oriented Programming
 このドキュメントは、オブジェクト指向を教えるために用意した資料です。
 このドキュメントが新米プログラマの教育担当の方の役に立てば、との思いで作成しております。
 fork や pull request は自由にしてもらっても構いません。
+新出単語は__太字__で表しています。
 
 <a name="introduce"></a>
 
@@ -44,19 +45,19 @@ fork や pull request は自由にしてもらっても構いません。
 オブジェクトとは
 --------------
 
-__メンバ__と__メソッド__を持つものを__オブジェクト__と呼びます。
+__フィールド__や__メソッド__を持つものを__オブジェクト__と呼びます。
 
-メンバとはオブジェクトが持つ「情報を保存する場所」のことを指します。メンバは「変数」に似ています。  
-メソッドとはオブジェクトが持つ「情報を処理する場所」のことを指します。メソッドは「関数」に似ています。
+フィールドとはオブジェクトが持つ「情報を保存する場所」のことを指します。フィールドは「変数」に似ています。  
+メソッドとは、オブジェクトが持つ「情報を処理する場所」のことを指します。メソッドは、「関数」に似ています。
 
 #### 具体例
 
-次のスニペットは、メンバとメソッドの使い方を示したものです。
+次のスニペットは、フィールドとメソッドの使い方を示したものです。
 
 Java
 
 ~~~ java
-// x は座標（オブジェクト）のメンバ
+// x は座標（オブジェクト）のフィールド
 point.x
 
 // size() は配列（オブジェクト）のメソッド
@@ -67,6 +68,180 @@ array.size()
 
 クラスとは
 ---------
+
+オブジェクトのフィールドとメソッドを定義したものを__クラス__と呼びます。
+Javaには多くのクラスがすでに定義されています。
+String、ArrayやArrayListなどの大文字から始まる型の名前は全てクラスです。
+
+また、クラスを元にしてできた新たなオブジェクトを__インスタンス__と呼び、
+`new`してインスタンスを作ることを__インスタンスの生成__と呼びます。
+
+#### 具体例
+
+Java
+
+~~~ java
+// 変数ary は Arrayクラス のインスタンス
+Array[] ary = new Array[5];
+
+// 変数str は Stringクラス のインスタンス
+String str = new String("apple");
+
+// Stringクラスにおける、別のインスタンスの生成方法（推奨）
+String str = "apple";
+~~~
+
+<a name="build-class"></a>
+
+クラスの作り方
+------------
+
+### クラスの定義
+
+クラスは自分で作成することもできます。
+説明のために、ここでは座標を表すためのPointクラスを作成していきます。
+
+#### フィールドの定義例
+
+はじめに、簡単なPointクラスを定義します。  
+packageである `your_package_name` には、Javaプロジェクトの新規作成時に入力したパッケージ名を入れてください。
+
+Main.java
+
+~~~ java
+package your_package_name; 
+
+public class Main {
+    public static void main(String[] args) {
+        
+    }
+}
+
+// クラスの定義
+class Point {
+    // フィールドの定義
+    public int x;
+    public int y;
+}
+~~~
+
+
+#### メソッドの定義例1
+
+次に、フィールドである座標と原点との距離を返す関数 distance を作成します。
+原点との距離は、公式 √(x^2 + y^2) を使います。
+
+Main.java
+
+~~~ java
+package your_package_name; 
+
+public class Main {
+    public static void main(String[] args) {
+        Point point = new Point();
+        point.x = 3;
+        point.y = 4;
+        System.out.println(point.distance()); //=> 5.0
+    }
+}
+
+// クラスの定義
+class Point {
+    // フィールドの定義
+    public int x;
+    public int y;
+
+    // メソッドの定義
+    double distance() {
+        return Math.sqrt(x * x + y * y);
+    }
+}
+~~~
+
+
+<a name="constructor"></a>
+
+コンストラクタとは
+---------------
+
+演算子`new`でインスタンス化するための処理は、
+__コンストラクタ__と呼ばれるメソッドを定義することによって行われます。
+
+コンストラクタを定義することで、
+インスタンス化する際に `new Point(3, 4)` のように引数を渡して初期化を行うことができます。
+
+Main.java
+
+~~~ java
+package your_package_name;
+
+public class Main {
+    public static void main(String[] args) {
+        Point point = new Point(3, 4);
+        System.out.println(point.distance()); //=> 5.0
+    }
+}
+
+// クラスの定義
+class Point {
+    public int x;
+    public int y;
+
+    // コンストラクタの定義
+    public Point(int _x, int _y) {
+        x = _x;
+        y = _y;
+    }
+
+    double distance() {
+        return Math.sqrt(x * x + y * y);
+    }
+}
+~~~
+
+コンストラクタを用いたことにより、インスタンスの初期化が楽になりました。
+
+
+継承とは
+-------
+
+あるクラスの性質を引き継いでクラスを作ることを__継承__と呼びます。
+継承元になった親クラスを__スーパークラス__、継承した子クラスを__サブクラス__と呼びます。
+
+#### 具体例
+
+次に、Pointクラスは2次元の座標しか扱えないので、このクラスを継承して3次元座標を扱えるPoint3Dクラスを作成します。
+
+Main.java
+
+~~~ java
+package your_package_name; 
+
+// クラスの定義
+class Point {
+    public int x;
+    public int y;
+
+    // コンストラクタの定義
+    public Point(int _x, int _y) {
+        x = _x;
+        y = _y;
+    }
+
+    double distance() {
+        return Math.sqrt(x * x + y * y);
+    }
+}
+~~~
+
+
+
+
+
+
+
+
+
 
 
 

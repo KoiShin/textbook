@@ -103,17 +103,20 @@ String str = "apple";
 
 #### フィールドの定義例
 
-はじめに、簡単なPointクラスを定義します。  
-packageである `your_package_name` には、Javaプロジェクトの新規作成時に入力したパッケージ名を入れてください。
+はじめに、フィールドのみで構成される簡単なPointクラスを定義します。  
 
 Main.java
 
 ~~~ java
-package your_package_name; 
+package your_package_name;
 
 public class Main {
     public static void main(String[] args) {
-        
+        Point point = new Point();
+        point.x = 3;
+        point.y = 4;
+        System.out.println(point.x); //=> 3
+        System.out.println(point.y); //=> 4
     }
 }
 
@@ -125,8 +128,10 @@ class Point {
 }
 ~~~
 
+フィールドへの代入は `point.x = 3` 、フィールドへのアクセスは `point.x` のようにします。
 
-#### メソッドの定義例1
+
+#### メソッドの定義例
 
 次に、フィールドである座標と原点との距離を返す関数 distance を作成します。
 原点との距離は、公式 √(x^2 + y^2) を使います。
@@ -134,7 +139,7 @@ class Point {
 Main.java
 
 ~~~ java
-package your_package_name; 
+package your_package_name;
 
 public class Main {
     public static void main(String[] args) {
@@ -153,7 +158,7 @@ class Point {
 
     // メソッドの定義
     double distance() {
-        return Math.sqrt(x * x + y * y);
+        return Math.sqrt(x*x + y*y);
     }
 }
 ~~~
@@ -182,25 +187,50 @@ public class Main {
     }
 }
 
-// クラスの定義
 class Point {
     public int x;
     public int y;
 
     // コンストラクタの定義
-    public Point(int _x, int _y) {
+    Point(int _x, int _y) {
         x = _x;
         y = _y;
     }
 
     double distance() {
-        return Math.sqrt(x * x + y * y);
+        return Math.sqrt(x*x + y*y);
     }
 }
 ~~~
 
 コンストラクタを用いたことにより、インスタンスの初期化が楽になりました。
 
+
+<a name="this"></a>
+
+thisキーワード
+-------------
+
+__this__キーワードを使うことで、フィールドの変数と関数の引数の変数を、区別することができます。
+セクション「[コンストラクタ](#constructor)」のコンストラクタ定義部分のコードと比較しながら見てください。
+
+~~~ java
+class Point {
+    public int x;
+    public int y;
+
+    // コンストラクタの定義
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // ...
+}
+~~~
+
+
+<a name="extends"></a>
 
 継承とは
 -------
@@ -215,26 +245,48 @@ class Point {
 Main.java
 
 ~~~ java
-package your_package_name; 
+package your_package_name;
 
-// クラスの定義
+public class Main {
+    public static void main(String[] args) {
+        Point3D point3d = new Point3D(3, 4, 5);
+        System.out.println(point3d.distance3d()); //=> 7.07...
+    }
+}
+
 class Point {
     public int x;
     public int y;
 
-    // コンストラクタの定義
-    public Point(int _x, int _y) {
+    Point(int _x, int _y) {
         x = _x;
         y = _y;
     }
 
     double distance() {
-        return Math.sqrt(x * x + y * y);
+        return Math.sqrt(x*x + y*y);
+    }
+}
+
+// Pointクラス を継承した Point3Dクラス の定義
+class Point3D extends Point {
+    public int z;
+
+    Point3D(int _x, int _y, int _z) {
+        super(_x, _y);  //< スーパークラスのコンストラクタを呼んでいる
+        z = _z;
+    }
+
+    double distance3d() {
+        return Math.sqrt(x*x + y*y + z*z);
     }
 }
 ~~~
 
 
+
+オーバーライドとは
+----------------
 
 
 

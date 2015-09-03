@@ -277,16 +277,58 @@ class Point3D extends Point {
         z = _z;
     }
 
-    double distance3d() {
+    double distance() {
         return Math.sqrt(x*x + y*y + z*z);
     }
 }
 ~~~
 
 
+<a name="override"></a>
 
 オーバーライドとは
 ----------------
+
+
+<a name="access"></a>
+
+アクセス権
+---------
+
+public, private, protected 修飾子
+
+
+<a name="static"></a>
+
+クラスメソッドとクラス変数
+-----------------------
+
+static修飾子
+
+
+<a name="interface"></a>
+
+インターフェースとは
+-----------------
+
+
+<a name="abstruct"></a>
+
+抽象クラスとは
+------------
+
+
+<a name="interface-and-abstruct"></a>
+
+インターフェースと抽象クラスの違い
+------------------------------
+
+
+<a name="uml"></a>
+
+UML図の簡単な説明
+---------------
+
 
 
 

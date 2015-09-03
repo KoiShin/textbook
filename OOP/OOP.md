@@ -254,6 +254,20 @@ public class Main {
     }
 }
 
+class Point {
+    public int x;
+    public int y;
+
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    double distance() {
+        return Math.sqrt(x*x + y*y);
+    }
+}
+
 // Pointクラス を継承した Point3Dクラス の定義
 class Point3D extends Point {
     public int z;

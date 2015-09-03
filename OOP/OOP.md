@@ -254,30 +254,18 @@ public class Main {
     }
 }
 
-class Point {
-    public int x;
-    public int y;
-
-    Point(int _x, int _y) {
-        x = _x;
-        y = _y;
-    }
-
-    double distance() {
-        return Math.sqrt(x*x + y*y);
-    }
-}
-
 // Pointクラス を継承した Point3Dクラス の定義
 class Point3D extends Point {
     public int z;
 
-    Point3D(int _x, int _y, int _z) {
-        super(_x, _y);  //< スーパークラスのコンストラクタを呼んでいる
-        z = _z;
+    // コンストラクタの定義
+    Point3D(int x, int y, int z) {
+        super(x, y);  //< スーパークラスのコンストラクタを呼んでいる
+        this.z = z;
     }
 
-    double distance() {
+    // 新しいメソッドの定義
+    double distance3d() {
         return Math.sqrt(x*x + y*y + z*z);
     }
 }

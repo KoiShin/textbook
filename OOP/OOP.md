@@ -266,7 +266,11 @@ class Point {
 自分の座標と引数の座標との距離を返す関数 `distance(Point other)` を定義します。
 関数 distance におけるオーバーロードの例です。
 
+Main.java
+
 ~~~ java
+package your_package_name;
+
 public class Main {
     public static void main(String[] args) {
         Point point = new Point(3, 4);
@@ -603,13 +607,22 @@ interface USBInterface {
 #### インターフェースの実装例
 
 インターフェースの抽象メソッドを実装するのは、インターフェースを実装するクラスです。
-「インターフェースを実装する」というのは、抽象メソッド
+「インターフェースを実装する」というのは、抽象メソッドをオーバーライドするような感覚です。
 
-ここでは Printer は USB接続を行うものとします。
+インターフェースを実装する場合は、そのインターフェースの全ての抽象メソッドを実装しないと、警告されます。
+
+この例では Printer は USB接続を行うものとします。
 
 Java
 
 ~~~ java
+interface USBInterface {
+    public static final float USB_VERSION = 3.0;
+    public abstract boolean connectUSB();
+    public abstract boolean disconnectUSB();
+}
+
+// Printerクラス は USBInterface を実装する
 class Printer implements USBInterface {
     public boolean connectUSB() {
         // USB接続を行う具体的な処理
@@ -650,6 +663,53 @@ class Printer implements USBInterface {
 
 インターフェースの利点を生かした設計技法は、デザインパターン（別紙）で詳しく扱いたいと思います。
 
+### ポリモーフィズムとは（補足）
+
+__ポリモーフィズム__とは、違うクラスでも同名のメソッドを定義しようという「考え方」です。
+これはインターフェースを利用することで、楽に実現できます。
+
+Main.java
+
+~~~ java
+package your_package_name;
+
+public class Main {
+    public static void main(String[] args) {
+        invokeCall(new Dog());
+        invokeCall(new Cat());
+    }
+
+    // 引数のオブジェクトに対して call() メソッドを呼び出す
+    static void invokeCall(Animal animal) {
+        System.out.println(animal.call());
+    }
+}
+
+// 動物（Animal）は鳴く（call）
+interface Animal {
+    public abstract String call();
+}
+
+class Dog implements Animal {
+    // 犬は「ワンワン」と鳴く
+    public String call() {
+        return "bow, wow!";
+    }
+}
+
+class Cat implements Animal {
+    // 猫は「ミャオ」となく
+    public String call() {
+        return "meow";
+    }
+}
+~~~
+
+ポリモーフィズムにする利点は、次のようなものがあります。
+
+- メソッド名が統一されているので、覚えやすい・使いやすい
+- 決まったメソッドを呼び出すだけなので、条件分岐が不必要になる
+（あるインスタンスはDogクラスなのかCatクラスなのか条件分岐で確認する必要がなくなる）
 
 
 <a name="abstruct"></a>

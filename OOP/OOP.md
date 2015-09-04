@@ -69,6 +69,8 @@ __フィールド__や__メソッド__を持つものを__オブジェクト__�
 フィールドとはオブジェクトが持つ「情報を保存する場所」のことを指します。フィールドは「変数」に似ています。  
 メソッドとは、オブジェクトが持つ「情報を処理する場所」のことを指します。メソッドは、「関数」に似ています。
 
+また、オブジェクトのフィールドとメソッドをまとめて__メンバ__（member）と呼ぶことにします。
+
 #### 具体例
 
 次のスニペットは、フィールドとメソッドの使い方を示したものです。
@@ -254,7 +256,50 @@ class Point {
 オーバーロード
 ------------
 
+関数名は同じだが、引数の数または種類が異なる関数を定義することを、
+多重定義 もしくは __オーバーロード__ と呼びます。
 
+#### 具体例
+
+原点からの距離を求める関数 `distance()` があります。
+それに加えて、引数に Point型 の変数を与えると、
+自分の座標と引数の座標との距離を返す関数 `distance(Point other)` を定義します。
+関数 distance におけるオーバーロードの例です。
+
+~~~ java
+public class Main {
+    public static void main(String[] args) {
+        Point point = new Point(3, 4);
+        Point otherPoint = new Point(15, 20);
+
+        System.out.println(point.distance()); //=> 5.0
+        System.out.println(point.distance(otherPoint)); //=> 20.0
+    }
+}
+
+class Point {
+    public int x;
+    public int y;
+
+    // ...
+
+    double distance() {
+        return Math.sqrt(x*x + y*y);
+    }
+
+    double distance(Point other) {
+        double xDiff = this.x - other.x;
+        double yDiff = this.y - other.y;
+        double dist = Math.sqrt(
+            Math.pow(xDiff, 2) +
+            Math.pow(yDiff, 2)
+        );
+        return dist;
+    }
+}
+~~~
+
+2点間の距離は、公式 √((x1 - x2)^2 + (y1- y2)^2) を使います。
 
 
 
@@ -283,7 +328,7 @@ __アクセス修飾子__を使うことでフィールドやメソッドのア�
 
 #### 具体例
 
-メンバやメソッドにおけるアクセス権の検証
+フィールドやメソッドにおけるアクセス権の検証
 
 Main.java
 
@@ -449,7 +494,7 @@ class Point3D extends Point {
         this.z = z;
     }
 
-    // 新しいメソッドの定義
+    // Point3dクラスで、新しいメソッドの定義
     double distance3d() {
         return Math.sqrt(x*x + y*y + z*z);
     }
@@ -466,10 +511,48 @@ class Point3D extends Point {
 
 スーパークラスから継承したメソッドを再定義することを__オーバーライド__と呼びます。
 
+#### 具体例
 
-オーバーロードとは
-----------------
+スーパークラスの関数 distance をサブクラスでオーバーライドする例です。
 
+Java
+
+~~~ java
+class Point {
+    public int x;
+    public int y;
+
+    // ...
+
+    double distance() {
+        return Math.sqrt(x*x + y*y);
+    }
+}
+
+class Point3D extends Point {
+    public int z;
+
+    // ...
+
+    // スーパークラスから継承したメソッドを再定義（上書き）する
+    @Override
+    double distance() {
+        return Math.sqrt(x*x + y*y + z*z);
+    }
+}
+~~~
+
+オーバーライドをする関数の前に `@Override` を追加します。
+この`@`から始まる注釈を__アノテーション__と呼びます。
+アノテーションは付けなくてもオーバーライドはできますが、
+これを付けるとコンパイラに「このメソッドはオーバーライドするんだよ」と伝えることができます。
+
+アノテーションを加えることで、次のような利点があります。
+
+- コンパイル時に、正しくオーバーライドできていないときには、警告してくれる
+- どのメソッドがオーバーライドしているのか、視覚的に分かりやすい
+
+補足）英語で上書きは「overwrite」ですが、オーバーライドの綴りは「override」です。
 
 
 
@@ -478,11 +561,104 @@ class Point3D extends Point {
 インターフェースとは
 -----------------
 
+オブジェクトのメソッド名を「規定」するためのものを__インターフェース__と呼びます。
+また、そのインターフェースの規定に従ってクラスを作ることを、
+（クラスの）__インターフェースを実装する__といいます。
+
+インターフェースには、__抽象メソッド__を定義します。
+抽象メソッドとは中身のない名前だけのメソッドのことです。
+__abstruct__修飾子を付けることで抽象メソッドを作ることができます。
+
+以下のリストは、インターフェースにおける修飾子のルールです。
+
+- インターフェースのメソッドは必ず抽象メソッドとなるため、
+abstruct修飾子 が自動で付けられます。
+abstruct修飾子は明示的に記述してもいいです（筆者は推奨）
+
+- また、インターフェースにフィールドを与えることもできますが、
+そのフィールドは必ず唯一の定数となるため、static修飾子 と final修飾子 が自動で付けられます。
+staticとfinal修飾子は明示的に記述してもいいです（筆者は推奨）
+
+- さらに、全てのメンバは必ず public となるため、public修飾子 が自動で付けられます。
+public修飾子は明示的に記述してもいいです（筆者は推奨）
+
+#### インターフェースの定義例
+
+USBに接続するためのインターフェースの定義例です。
+
+Java
+
+~~~ java
+// USBInterface という interface の定義
+interface USBInterface {
+    // 変数の定義例
+    public static final float USB_VERSION = 3.0;
+
+    // メソッドの規定
+    public abstract boolean connectUSB();
+    public abstract boolean disconnectUSB();
+}
+~~~
+
+#### インターフェースの実装例
+
+インターフェースの抽象メソッドを実装するのは、インターフェースを実装するクラスです。
+「インターフェースを実装する」というのは、抽象メソッド
+
+ここでは Printer は USB接続を行うものとします。
+
+Java
+
+~~~ java
+class Printer implements USBInterface {
+    public boolean connectUSB() {
+        // USB接続を行う具体的な処理
+        // ...
+    }
+
+    public boolean disconnectUSB() {
+        // USB接続を切断する具体的な処理
+        // ...
+    }
+
+    public boolean print(PDF pdf) {
+        // pdfファイルを印刷する具体的な処理
+        // ...
+    }
+
+    // ...
+}
+~~~
+
+ここまで読まれた方は、
+「なんでインターフェースを定義する必要があるの？
+インターフェース定義している暇があったら、さっさと実装しろよ（怒）」
+と思うかもしれません。
+この例では Printer しか使っていないので、そう感じるかもしれません。
+
+では、次の例を考えてみてください。USB接続を行うものはたくさんあります。
+外部記憶装置、入力装置、出力装置、etc.
+それらは全てクラスで実装されているのですが、
+それぞれが独自にUSBに接続するメソッドを定義していたらどうでしょう。
+あるクラスでは `connectUSB()`、別のクラスでは `connect()`、
+また別のクラスでは `startConnection()` etc.
+これらを使うプログラマとしては、全てのクラスの全てのメソッドを把握する必要があり、とても大変です。
+
+そこで、interface を使うとどうなるでしょうか。ユーザは、使いたいクラスが USBInterface を実装しているか確認するだけで、どのメソッドを使えばいいのかすぐに理解できるようになります。
+また、これから USB接続の処理を実装しようとしているプログラマに、
+必要となるメソッドの名前を示唆してくれます。
+
+インターフェースの利点を生かした設計技法は、デザインパターン（別紙）で詳しく扱いたいと思います。
+
+
 
 <a name="abstruct"></a>
 
 抽象クラスとは
 ------------
+
+
+
 
 
 <a name="interface-and-abstruct"></a>

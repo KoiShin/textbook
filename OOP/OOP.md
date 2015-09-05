@@ -23,7 +23,6 @@ Object Oriented Programming
 - [オーバーライドとは](#override)
 - [インターフェースとは](#interface)
 - [抽象クラスとは](#abstruct)
-- [インターフェースと抽象クラスの違い](#interface-and-abstruct)
 - [UML図の簡単な説明](#uml)
 
 <a name="preface"></a>
@@ -789,7 +788,7 @@ class FileTemplate extends AbstructFileTemplate {
     protected void catchException(Exception e) {
         // キャッチした例外に対する具体的な処理
     }
-    
+
     @Override
     protected void fileClose() {
         // ファイルクローズの具体的な処理
@@ -804,12 +803,6 @@ class FileTemplate extends AbstructFileTemplate {
 
 - 複数ある似たようなクラスのロジックを、共通化することができる
 - 抽象クラスで処理の流れを形作ることができる
-
-
-<a name="interface-and-abstruct"></a>
-
-インターフェースと抽象クラスの違い
-------------------------------
 
 
 <a name="uml"></a>

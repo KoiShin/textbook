@@ -668,6 +668,8 @@ class Printer implements USBInterface {
 __ポリモーフィズム__とは、違うクラスでも同名のメソッドを定義しようという「考え方」です。
 これはインターフェースを利用することで、楽に実現できます。
 
+この例では、Animalインターフェース を使ってポリモーフィズムを実現しました
+
 Main.java
 
 ~~~ java
@@ -717,8 +719,91 @@ class Cat implements Animal {
 抽象クラスとは
 ------------
 
+__抽象クラス__では、抽象メソッドと、中身のあるメソッドの両方を定義することができます。
+
+抽象クラスを使うには、継承される必要があります。（抽象メソッドはオーバーライドされる必要があるため）
+
+抽象メソッドを定義するには、abstruct修飾子を付けます。
+
+#### 具体例
+
+このクラスは、ファイルの入出力における、
+典型的な try-catch-finally文 を抽象クラスを使ってテンプレート化したものです。
+
+Main.java
+
+~~~ java
+// 抽象クラスAbstructFileTemplate の定義
+abstract class AbstructFileTemplate {
+    // 保存するテキスト
+    protected StringBuilder text;
+
+    // 中身のあるメソッド
+    public final void save() {
+        try {
+            fileOpen();
+            write();
+        } catch (IOException e) {
+            catchException(e);
+        } finally {
+            fileClose();
+        }
+    }
+
+    // 抽象メソッド
+    protected abstract void fileOpen() throws IOException;
+    protected abstract void write() throws IOException;
+    protected abstract void catchException(Exception e);
+    protected abstract void fileClose();
+}
+~~~
+
+抽象クラスを使いたいクラスは、`extends`キーワードで抽象クラスを継承します。
+
+~~~ java
+// 抽象クラスAbstructFileTemplate
+abstract class AbstructFileTemplate {
+    // 抽象メソッドなどの定義
+    // ...
+}
 
 
+// 抽象クラスを継承した FileTemplateクラス
+class FileTemplate extends AbstructFileTemplate {
+    FileTemplate(StringBuilder text) {
+        this.text = text;
+    }
+
+    // 抽象メソッドのオーバーライドなど
+    @Override
+    protected void fileOpen() throws FileNotFoundException {
+        // ファイルオープンの具体的な処理
+    }
+
+    @Override
+    protected void write() throws IOException {
+        // ファイルへの書き込みの具体的な処理
+    }
+
+    @Override
+    protected void catchException(Exception e) {
+        // キャッチした例外に対する具体的な処理
+    }
+    
+    @Override
+    protected void fileClose() {
+        // ファイルクローズの具体的な処理
+    }
+}
+~~~
+
+このクラスのインスタンスがファイルの保存をしたいときは `fileTemplate.save()`
+
+
+抽象クラスを使う利点は、次のようなものがあります。
+
+- 複数ある似たようなクラスのロジックを、共通化することができる
+- 抽象クラスで処理の流れを形作ることができる
 
 
 <a name="interface-and-abstruct"></a>

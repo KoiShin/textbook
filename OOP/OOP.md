@@ -699,7 +699,7 @@ class Dog implements Animal {
 }
 
 class Cat implements Animal {
-    // 猫は「ミャオ」となく
+    // 猫は「ミャオ」と鳴く
     public String call() {
         return "meow";
     }
@@ -796,8 +796,7 @@ class FileTemplate extends AbstructFileTemplate {
 }
 ~~~
 
-このクラスのインスタンスがファイルの保存をしたいときは `fileTemplate.save()`
-
+このクラスのインスタンスがファイルの保存をしたいときは `fileTemplate.save()` と書きます。
 
 抽象クラスを使う利点は、次のようなものがあります。
 

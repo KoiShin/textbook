@@ -141,7 +141,7 @@ result = (score >= 60) ? "success" : "failure";
 // No
 do {
 	input_num = gets(stdin);
-} while (validate(input_num));
+} while (!validate(input_num));
 
 // Yes
 while (true) {
@@ -182,13 +182,13 @@ Classes
 クラスの中での定義の順番
 
 1. クラス定数
-1. publicフィールド
-1. protectedフィールド
-1. privateフィールド
-1. コンストラクタ
-1. publicメソッド
-1. protectedメソッド
-1. privateメソッド
+2. publicフィールド
+3. protectedフィールド
+4. privateフィールド
+5. コンストラクタ
+6. publicメソッド
+7. protectedメソッド
+8. privateメソッド
 
 [under construction]
 

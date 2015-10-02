@@ -422,7 +422,8 @@ public class Main {
 }
 
 class User {
-    static private int userNum = 0;
+    private static int userNum = 0;
+
     static int getUserNum() {
         return userNum;
     }
@@ -437,7 +438,6 @@ class User {
 デストラクタがある言語は、
 「Userのインスタンスが（メモリから）解放されるごとに ユーザ数 を -1 する」
 という処理があってもいいでしょう。
-
 
 
 

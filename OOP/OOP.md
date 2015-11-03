@@ -285,11 +285,13 @@ class Point {
     public int y;
 
     // ...
-
+    
+    // 自分の座標と原点との距離を求める
     double distance() {
         return Math.sqrt(x*x + y*y);
     }
-
+    
+    // 自分の座標と他の座標との距離を求める
     double distance(Point other) {
         double xDiff = this.x - other.x;
         double yDiff = this.y - other.y;

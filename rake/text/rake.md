@@ -20,6 +20,7 @@ $ rake <taskname>
 
 taskname を省略すると、defaultタスクが実行されます。
 
+
 ## Rake Tasks
 
 rakeが行うタスクはRakefileに記述します。Rakefileがなければ新規ファイルとして新たに作成します。
@@ -32,16 +33,7 @@ rule           | 拡張子を指定してファイルを作成するためのタ
 multitask      | 複数の事前条件を並列で行うタスク
 file           | ファイルを作成するためのタスク
 directory      | ディレクトリを作成するためのタスク
-
-
-### FileUtils
-
-FileUtils にはシェル上での操作を行う関数が定義されています。
-rake は実行時に FileUtils モジュールを require していると思われるので、FileUtils を require する必要はありません。
-
-特に重要なのは `sh` で、引数の文字列をシステムコマンドとして実行する関数です。
-
-FileUtils の詳細は rake の説明から離れるので、興味があれば FileUtils モジュールを参照してください。
+clean, clobber | 定数 CLEAN, CLOBBER に含まれるファイルを削除するタスク（rake/clean が必要）
 
 
 ### Task
@@ -132,7 +124,7 @@ end
 書式
 
 ```ruby
-directory 'path/to/dir'
+directory 'path/to/dir'  # ディレクトリ path/to/dir/ が存在しなければ、作成する
 
 file 'config.yml' => 'path/to/dir' do |t|
   sh "some-command > path/to/dir/config.yml"
@@ -140,21 +132,63 @@ end
 ```
 
 
+### Cleaning Task
+
+rakeによって作られた中間ファイルや生成ファイルを削除するためのタスクは `rake/clean` に定義されています。
+これらを利用するには、まず `require 'rake/clean'` をRakefileに追加します。
+
+`rake/clean` には `CLEAN` と `CLOBBER` という2つの定数と、
+`clean` と `clobber` という2つのタスクが定義されています。
+
+**定数**
+
+- CLEAN : 中間ファイルのリスト
+- CLOBBER : 生成ファイルのリスト
+
+CLEAN や CLOBBER の初期値は、何も登録されていません。これらへファイルを追加するには次のようなコードを書きます。
+
+``` ruby
+require 'rake/clean'
+
+# 中間ファイル
+CLEAN.include("output/*.dvi")
+CLEAN.include("output/*.log")
+CLEAN.include("output/*.aux")
+
+# 生成ファイル
+CLOBBER.include("output/*.pdf")
+```
+
+**タスク**
+
+- clean : 定数 CLEAN に追加されたファイルを削除するタスク
+- clobber : 定数 CLEAN と CLOBBER に追加されたファイルを削除するタスク
+
+`rake/clean` を require した Rakefile のあるディレクトリで、
+`rake clean` もしくは `rake clobber` と入力すると、指定した中間ファイル・生成ファイルが削除されます。
 
 
+## Modules included
 
+### FileUtils
 
+FileUtils にはシェル上での操作を行う関数が定義されています。
+さらに rake は FileUtils に新たな関数をいくつか追加しています。
+特に重要なのは `sh` で、引数の文字列をシステムコマンドとして実行する関数です。
 
+``` ruby
+sh "python foo.py"  # 引数の文字列 "python foo.py" を出力してから、foo.pyファイルをpythonで実行する
+```
 
+rake は実行時に FileUtils モジュールを require していると思われるので、
+FileUtils を新たに require する必要はありません。
+FileUtils の詳細は rake の説明から離れるので、興味があれば FileUtils モジュールを参照してください。
 
+### Rake::FileList
 
+### Rake::Task
 
-
-
-
-
-
-
+### Rake::MakefileLoader
 
 
 

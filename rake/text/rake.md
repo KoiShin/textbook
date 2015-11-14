@@ -62,7 +62,7 @@ task :taskB => :taskA do
 end
 
 # 前提条件のみ
-task :taskC => :taskA
+task :taskC => [:taskA, :taskB]
 
 # 複数の前提条件を持つタスク
 task :taskD => [:taskA, :taskB] do
@@ -99,8 +99,8 @@ end
 書式
 
 ```ruby
-multitask :setup => [:install_ruby, :install_rake, :install_git] do
-  puts 'The build is completed'
+multitask :task => [:taskA, :taskB, :taskC] do
+  puts 'Every task is completed!'
 end
 ```
 

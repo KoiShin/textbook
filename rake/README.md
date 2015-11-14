@@ -72,6 +72,14 @@ end
 task :default => :taskA
 ```
 
+関数 task で定義したタスク名（ここでは taskA や taskB ...など）は、rakeコマンドを実行する際にも使える。
+
+``` bash
+$ rake taskA        # タスク :taskA を実行
+$ rake taskD taskE  # タスク :taskD と :taskE を実行
+$ rake              # タスク :default を実行
+```
+
 ### Rule
 
 拡張子を指定してファイルを作成するためのタスク。
@@ -191,7 +199,9 @@ FileUtils の詳細は rake の説明から離れるので、興味があれば 
 
 ### Rake::MakefileLoader
 
+- load(filename)
 
+与えられた Makefile をロードします。
 
 
 

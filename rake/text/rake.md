@@ -81,7 +81,15 @@ task :default => :taskA
 
 ### Rule
 
-[under construction]
+拡張子を指定してファイルを作成するためのタスク。
+
+書式
+
+``` ruby
+rule '.html' => '.md' do |t|
+  sh "pandoc -s #{t.source} -o #{t.name}"
+end
+```
 
 
 ### Multitask
@@ -127,7 +135,7 @@ end
 directory 'path/to/dir'
 
 file 'config.yml' => 'path/to/dir' do |t|
-	sh "some-command > path/to/dir/config.yml"
+  sh "some-command > path/to/dir/config.yml"
 end
 ```
 

@@ -20,7 +20,7 @@ Object Oriented Programming
 - [継承とは](#extends)
 - [オーバーライドとは](#override)
 - [インターフェースとは](#interface)
-- [抽象クラスとは](#abstruct)
+- [抽象クラスとは](#abstract)
 
 <a name="preface"></a>
 
@@ -282,12 +282,12 @@ class Point {
     public int y;
 
     // ...
-    
+
     // 自分の座標と原点との距離を求める
     double distance() {
         return Math.sqrt(x*x + y*y);
     }
-    
+
     // 自分の座標と他の座標との距離を求める
     double distance(Point other) {
         double xDiff = this.x - other.x;
@@ -569,13 +569,13 @@ class Point3D extends Point {
 
 インターフェースには、__抽象メソッド__を定義します。
 抽象メソッドとは中身のない名前だけのメソッドのことです。
-__abstruct__修飾子を付けることで抽象メソッドを作ることができます。
+__abstract__修飾子を付けることで抽象メソッドを作ることができます。
 
 以下のリストは、インターフェースにおける修飾子のルールです。
 
 - インターフェースのメソッドは必ず抽象メソッドとなるため、
-abstruct修飾子 が自動で付けられます。
-abstruct修飾子は明示的に記述してもいいです（筆者は推奨）
+abstract修飾子 が自動で付けられます。
+abstract修飾子は明示的に記述してもいいです（筆者は推奨）
 
 - また、インターフェースにフィールドを与えることもできますが、
 そのフィールドは必ず唯一の定数となるため、static修飾子 と final修飾子 が自動で付けられます。
@@ -712,7 +712,7 @@ class Cat implements Animal {
 （あるインスタンスはDogクラスなのかCatクラスなのか条件分岐で確認する必要がなくなる）
 
 
-<a name="abstruct"></a>
+<a name="abstract"></a>
 
 抽象クラスとは
 ------------
@@ -721,7 +721,7 @@ __抽象クラス__では、抽象メソッドと、中身のあるメソッド�
 
 抽象クラスを使うには、継承される必要があります。（抽象メソッドはオーバーライドされる必要があるため）
 
-抽象メソッドを定義するには、abstruct修飾子を付けます。
+抽象メソッドを定義するには、abstract修飾子を付けます。
 
 #### 具体例
 
@@ -731,8 +731,8 @@ __抽象クラス__では、抽象メソッドと、中身のあるメソッド�
 Main.java
 
 ~~~ java
-// 抽象クラスAbstructFileTemplate の定義
-abstract class AbstructFileTemplate {
+// 抽象クラスabstractFileTemplate の定義
+abstract class abstractFileTemplate {
     // 保存するテキスト
     protected StringBuilder text;
 
@@ -759,15 +759,15 @@ abstract class AbstructFileTemplate {
 抽象クラスを使いたいクラスは、`extends`キーワードで抽象クラスを継承します。
 
 ~~~ java
-// 抽象クラスAbstructFileTemplate
-abstract class AbstructFileTemplate {
+// 抽象クラスabstractFileTemplate
+abstract class abstractFileTemplate {
     // 抽象メソッドなどの定義
     // ...
 }
 
 
 // 抽象クラスを継承した FileTemplateクラス
-class FileTemplate extends AbstructFileTemplate {
+class FileTemplate extends abstractFileTemplate {
     FileTemplate(StringBuilder text) {
         this.text = text;
     }
@@ -819,61 +819,3 @@ class FileTemplate extends AbstructFileTemplate {
 ~~~
 <>∧∨
 ~~~
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

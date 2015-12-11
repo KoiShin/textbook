@@ -9,28 +9,27 @@ LED_ON_OFF
 #define scanf  ((int (*)(const char *,...))0x00007cb8)
 
 void main(void) {
-  // LED5
-  // PFC.PEIORL.WORD |= 0x0200;
-  // PE.DR.WORD.L &= 0xFDFF;
-  
-  PFC.PEIORL.BIT.B9 = 1;
-  PFC.PEIORL.BIT.B11 = 1;
-  
-  
-  printf("%x\n", PE.DR.BIT.B9);
-  printf("%x\n", PE.DR.BIT.B11);
-  
-  PE.DR.BIT.B9 = 0;
-  PE.DR.BIT.B11 = 0;
-  // PE.DR.BYTE.LH &= 0xFD;
-  // PE.DR.WORD.L &= 0xFDFF;
-  // PE.DR.LONG &= 0xFFFFFDFF;
-  
-  printf("%x\n", PE.DR.BIT.B9);
-  printf("%x\n", PE.DR.BIT.B11);
-  
-  while(1)
-  	;
+	// LED5
+	// PFC.PEIORL.WORD |= 0x0200;
+	// PE.DR.WORD.L &= 0xFDFF;
+	
+	PFC.PEIORL.BIT.B9 = 1;
+	PFC.PEIORL.BIT.B11 = 1;
+	
+	printf("%x\n", PE.DR.BIT.B9);
+	printf("%x\n", PE.DR.BIT.B11);
+	
+	PE.DR.BIT.B9 = 0;
+	PE.DR.BIT.B11 = 0;
+	// PE.DR.BYTE.LH &= 0xFD;
+	// PE.DR.WORD.L &= 0xFDFF;
+	// PE.DR.LONG &= 0xFFFFFDFF;
+	
+	printf("%x\n", PE.DR.BIT.B9);
+	printf("%x\n", PE.DR.BIT.B11);
+	
+	while(1)
+		;
 }
 ~~~
 
@@ -91,7 +90,7 @@ void main(void) {
 	PE.DR.BIT.B11 = 1;
 	while (1) {
 		if(PD.DR.BIT.B18){
- 			while(PD.DR.BIT.B18);
+			while(PD.DR.BIT.B18);
 			if (PE.DR.BIT.B11) {
 				PE.DR.BIT.B11 = 0;
 			} else {
@@ -367,7 +366,7 @@ void digit_disp(_UINT tm, _UBYTE data1, _UBYTE data2) {
 
 void init_peior(void) {
 	PFC.PEIORL.BIT.B1 = 1;
- 	PFC.PEIORL.BIT.B2 = 1;
+	PFC.PEIORL.BIT.B2 = 1;
 }
 
 void init_paior(void) {
@@ -652,7 +651,7 @@ void main() {
 		printf("X Y String : ");
 		scanf("%d %d %s", &x, &y, str);
 
-        /* 必要な処理を記述 */
+		/* 必要な処理を記述 */
 
 	}
 }
@@ -992,7 +991,7 @@ void main(void) {
 
 	STB.CR4.BIT._AD0 = 0;
 	AD0.ADCSR.BIT.ADM = 3;
-    AD0.ADCSR.BIT.CH = 1;
+	AD0.ADCSR.BIT.CH = 1;
 
 	while (1) {
 		if (SW6) {
@@ -1226,13 +1225,13 @@ void main(void) {
 	AD0.ADCSR.BIT.ADM = 3;
 	AD0.ADCSR.BIT.ADCS = 1;
 	AD0.ADCSR.BIT.CH = 1;
- 	AD0.ADCR.BIT.ADST = 1;
- 	while(1) {
-   		while(!AD0.ADCSR.BIT.ADF);
-   		AD0.ADCSR.BIT.ADF = 0;
-   		printf("ADDR0 = %04d\nADDR1 = %04d\n",
-                                      AD0.ADDR0 >> 6, AD0.ADDR1 >> 6);
- 	}
+	AD0.ADCR.BIT.ADST = 1;
+	while(1) {
+		while(!AD0.ADCSR.BIT.ADF);
+		AD0.ADCSR.BIT.ADF = 0;
+		printf("ADDR0 = %04d\nADDR1 = %04d\n",
+									  AD0.ADDR0 >> 6, AD0.ADDR1 >> 6);
+	}
 
 #endif
 
@@ -1241,22 +1240,22 @@ void main(void) {
 	AD0.ADCSR.BIT.ADM = 3;
 	AD0.ADCSR.BIT.ADCS = 1;
 	AD0.ADCSR.BIT.CH = 1;
- 	while(1) {
+	while(1) {
 		if (SW6) {
- 			AD0.ADCR.BIT.ADST = 1;
+			AD0.ADCR.BIT.ADST = 1;
 			AD0.ADCSR.BIT.ADF = 0;
 			while (1) {
-   				while(!AD0.ADCSR.BIT.ADF);
-   				AD0.ADCSR.BIT.ADF = 0;
-   				printf("ADDR0 = %04d\nADDR1 = %04d\n",
-                                      AD0.ADDR0 >> 6, AD0.ADDR1 >> 6);
+				while(!AD0.ADCSR.BIT.ADF);
+				AD0.ADCSR.BIT.ADF = 0;
+				printf("ADDR0 = %04d\nADDR1 = %04d\n",
+									  AD0.ADDR0 >> 6, AD0.ADDR1 >> 6);
 				if (SW4)
 					break;
 			}
- 			AD0.ADCR.BIT.ADST = 0;
+			AD0.ADCR.BIT.ADST = 0;
 			AD0.ADCSR.BIT.ADF = 1;
 		}
- 	}
+	}
 
 #endif
 

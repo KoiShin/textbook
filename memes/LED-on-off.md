@@ -20,7 +20,7 @@ LEDは出力しか行わないので、PEIORLレジスタには1を代入する�
 // LED5 : PE9
 // LED6 : PE11
 // 
-// LEDの入出力設定
+// LEDの入出力設定（1: 出力）
 PFC.PEIORL.BIT.B9  = 1;
 PFC.PEIORL.BIT.B11 = 1;
 // LEDの点灯消灯（0: 点灯、1: 消灯）
@@ -76,18 +76,23 @@ PE.DR.LONG |= 0x00000A00;
 ~~~ c
 #include "iodefine.h"
 
+#define  LED5  (PE.DR.BIT.B9)
+#define  LED6  (PE.DR.BIT.B11)
+#define  LED_ON  0
+#define  LED_OFF 1
+
 void main(void) {
 	// set the LED IO
 	PFC.PEIORL.BIT.B9 = 1;
 	PFC.PEIORL.BIT.B11 = 1;
 	
 	// LED on
-	PE.DR.BIT.B9 = 0;
-	PE.DR.BIT.B11 = 0;
+	LED5 = LED_ON;
+	LED6 = LED_ON;
 
 	// LED off
-	PE.DR.BIT.B9 = 1;
-	PE.DR.BIT.B11 = 1;
+	LED5 = LED_OFF;
+	LED6 = LED_OFF;
 	
 	while(1)
 		;
